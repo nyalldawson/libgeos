@@ -94,4 +94,22 @@ namespace tut
         ensure( minRect.get()->equalsExact(expectedGeom.get()) );
     }
 
+    // Test with EMPTY input
+    template<>
+    template<>
+    void object::test<3>()
+    {
+        GeomPtr geom(reader.read("POLYGON EMPTY"));
+        ensure(0 != geom.get());
+
+        geos::algorithm::MinimumDiameter m(geom.get());
+        GeomPtr minRect( m.getMinimumRectangle() );
+        ensure(0 != minRect.get());
+
+        GeomPtr expectedGeom(reader.read("POLYGON ((5 0, 10 5, 5 10, 0 5, 5 0))"));
+        ensure(0 != expectedGeom.get());
+
+        ensure( minRect.get()->equalsExact(expectedGeom.get()) );
+    }
+
 } // namespace tut
